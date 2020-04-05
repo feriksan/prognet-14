@@ -20,16 +20,18 @@ class AdminController extends Controller
         $simpan =$tujuan.$file->getClientOriginalName();
         $file->move($tujuan,$file->getClientOriginalName());
         
-
         $new = new admin;
         $new->name = $request->name;
         $new->phone = $request->phone;
         $new->password = Hash::make($request->password);
         $new->username = $request->username;
         $new->profile_image = $simpan;
-        $new->save();
-
-     return redirect('admin/login');
+        $save = $new->save();
+        if(!$save){
+            App::abort(500, 'Error');
+        }else{
+        return redirect('admin/login');
+        }
     }
 
 
